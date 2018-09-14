@@ -64,7 +64,7 @@ In Robot.cpp
 
 The values used in the GetRawAxis and GetRawButton functions are based upon the following button map for the XBox controller
 
-XboxController.png
+.. image:: /_static/XBoxControlMapping.jpg
 
 Motor Outputs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

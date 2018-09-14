@@ -16,6 +16,8 @@ Basic Definitions
 
 Loops
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Since the main loop of FRC robot code loop continously we don't use many loops in our code. Still its good to know about them.
+
 While Loop
 
 .. code-block:: c++
@@ -34,6 +36,9 @@ For Loop
 
 Conditionals
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We use coniditional statements all the time in FRC robot code.
+We use them based upon controller inputs or sensors. Any example of some are below.
+
 If Statement
 
 .. code-block:: c++
@@ -68,7 +73,9 @@ Else Statement
 	  // Do Something Else
 	}
 
-Compartative
+
+In order to use a conditional you generally need to compare to values. The table below shows several 
+comparators.
 
 =========== =====================================================================================
 Symbol		Comparision

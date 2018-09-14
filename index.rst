@@ -16,7 +16,7 @@ Welcome to Team 573 Programming Documentation!
    FRC Electrical Quick Reference <electrical.rst>
    Coding for FRC Robot <RobotCode.rst>
    FRC Driver Station <DS.rst>
-.. Scouting App
+   Scouting App <scoutingapp.rst>
 .. Intro to Python
 .. Intro to Sqlite
 .. 2018 Scouting Apps
