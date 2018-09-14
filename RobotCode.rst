@@ -13,6 +13,12 @@ How to build and deploy code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 WPILIB
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Many of the functions we use to control robot actions are part of a library created for FRC called WPILIB.
+
+The help for it can be found here. (http://first.wpi.edu/FRC/roborio/release/docs/cpp/)
+
+This is a great resource and the examples in the sections below use fucntions from this library.
+
 Controller Inputs (Analog / Digital)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Motor Outputs
