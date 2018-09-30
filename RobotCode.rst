@@ -62,7 +62,7 @@ In Robot.cpp
 		}
 	}
 
-The values used in the GetRawAxis and GetRawButton functions are based upon the following button map for the XBox controller
+The values used in the GetRawAxis and GetRawButton functions are based upon the following button map for the XBox controller. This image is wrong for axis. They start at 0, but follow the same ordering.
 
 .. image:: /_static/XBoxControlMapping.jpg
 
@@ -85,32 +85,30 @@ In RobotMap.h
 	constexpr int LeftDrivePWM = 0; // Defining Left Drive PWM is in RoboRio Port 0
 	constexpr int RightDrivePWM = 1; // Defining Left Drive PWM is in RoboRio Port 1
 
-	Talon * LeftDrive; //Defining a Talon controller called LeftDrive
-	Talon * RightDrive; //Defining a Talon controller called RightDrive
-
 In Robot.cpp
 
 .. code-block:: c++
 
 	#include <WPILib.h>
-	#include "RobotMap.h"
+	#include <RobotMap.h>
 	#include <Joystick.h>
+	#include <Talon.h>
 
 	class Robot : public frc::TimedRobot {
 	public:
 
 		frc::Joystick controller1{ Driver1 };  // Xbox controller 1
+		frc::Talon LeftDrive{ LeftDrivePWM }; //Defining a Talon controller called LeftDrive
+		frc::Talon RightDrive{ 	RightDrivePWM }; //Defining a Talon controller called RightDrive
 
-		LeftDrive = new Talon(LeftDrivePWM); // Assigning a port to LeftDrive Talon
-		RightDrive = new Talon(RightDrivePWM); // Assigning a port to RightDrive Talon
 
 		void TeleopPeriodic() override {
 
 			double leftin = controller1.GetRawAxis(1); //Get Drive Left Joystick Y Axis Value
 			double rightin = controller1.GetRawAxis(5); //Get Drive right Joystick Y Axis Value
 
-			LeftDrive->Set(leftin); //Set left value to left drive
-			RightDrive->Set(rightin); //Set right value to right drive
+			LeftDrive.Set(leftin); //Set left value to left drive
+			RightDrive.Set(rightin); //Set right value to right drive
 
 		}
 	}
@@ -243,8 +241,6 @@ In RobotMap.h
 	#include <WPILib.h>
 	#include <ADXRS450_Gyro.h>
 
-	ADXRS450_Gyro * MyGyro; //Define a new gyro called MyGyro
-
 
 In Robot.cpp
 
@@ -256,13 +252,12 @@ In Robot.cpp
 
 	class Robot : public frc::TimedRobot {
 	public:
-
-		MyGyro = new ADXRS450_Gyro(); //Defines MyGyro no port is need since this gyro type is assumed to plug into a specific port in the RoboRio.
+		frc::ADXRS450_Gyro MyGyro{}; //Defines MyGyro no port is need since this gyro type is assumed to plug into a specific port in the RoboRio.
 
 
 		void TeleopPeriodic() override {
 
-			double gyroval = MyGyro->GetAngle(); // Get current angle from gyro called MyGyro
+			double gyroval = MyGyro.GetAngle(); // Get current angle from gyro called MyGyro
 
 			frc::SmartDashboard::PutString("Gyro", to_string(gyroval)); // Write out values to dashboard field Gyro, this is useful for debugging.
 
@@ -271,7 +266,7 @@ In Robot.cpp
 
 Other useful commands to use with the Encoder are
 
-MyGyro->Reset(); // Resets current angle to zero.
+MyGyro.Reset(); // Resets current angle to zero.
 
 Digital Inputs
 ---------------------------------------------------

@@ -9,13 +9,15 @@ Eclipse is a integrated development environment (IDE) we use for working on and 
 
 How To Setup Eclipse On Your Computer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can follow the instructions for installing eclipse and other FRC libraries on your computer. You only need to install things related to C++. We use Eclipse Neon for the 2018 robot code.
+
+https://wpilib.screenstepslive.com/s/currentCS/m/cpp/l/145002-installing-eclipse-c-java
 
 How To Create A New Project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can follow the instructions at the link beow to create new projects using templates provided by FRC.
 
-How To Add Files To A Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+https://wpilib.screenstepslive.com/s/currentCS/m/cpp/l/145319-creating-your-benchtop-test-program
 
 
 .. toctree::

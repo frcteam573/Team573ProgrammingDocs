@@ -11,8 +11,25 @@ Where to Start Learning C++ Programming
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 There are many great websites to teach you how to use C++ code. I like code academy. If you want to get started from scratch in programming at home this is a great place to get started. The rest of this section briefly covers some of the things in C++ that we use in FRC robotics
 
-Basic Definitions
+Variable Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Here is a table of commonly use variable types in C++.
+
+=========== =====================================================================================
+Short Name	Definition
+----------- -------------------------------------------------------------------------------------
+int			Whole numbers
+----------- -------------------------------------------------------------------------------------
+double		Number with a decimal point.
+----------- -------------------------------------------------------------------------------------
+char		Single letter or number
+----------- -------------------------------------------------------------------------------------
+bool		Boolean value (true or false)
+----------- -------------------------------------------------------------------------------------
+Void		No type (used many for functions that don't return anything)
+----------- -------------------------------------------------------------------------------------
+string		Used for words in code
+=========== =====================================================================================
 
 Loops
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
