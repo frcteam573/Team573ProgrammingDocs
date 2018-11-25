@@ -17,9 +17,9 @@ The scouting apps have been developed using Python. Python is a very popular pro
 
 How to install Python
 -------------------------------------------
-You can download Python here. (https://www.python.org/downloads/) Python2.x and Python3.x are still being used. The scouting apps from 2018 required Python2.7
+You can download Python here. (https://www.python.org/downloads/) Python2.x and Python3.x are still being used. The scouting apps from 2018 require Python2.7 and the scouting apps from 2019 require 3.6.
 
-Following the install instructions will install it on your computer. It will also install a text editor call Idle, you can develop python scripts in this or you can find another text editor online.
+Following the install instructions will install it on your computer. It will also install a text editor call Idle, you can develop python scripts in this or you can find another text editor online. Sublime Text is a good editor with text highlighting that is free.
 
 Where to start
 ------------------------------------------
@@ -44,6 +44,36 @@ It is also installed with python.
 
 However to get a tool to view the tables in a GUI you need to download it from here (https://www.sqlite.org/index.html)
 
+Creating a Virtual Environment
+----------------------------------------
+A virtual environment is a way to segment your Python projects on you computer. Since each project might rely on different and possibly conflicting libraries its best to create an environment for each Django project you have. This is something you'll need to do on your machine, before you download the github repository containing the project.
+
+Lets say I wanted to create a virtual enviornment called MW_573, then in Powershell you would perform the following commands.
+
+.. code-block:: bat
+
+	pip install virtualenv
+	:: Navigate to the folder you want to put the virtual enivorment in in our case C:\dev
+	C:\dev
+	::Create new folder for virtual environment
+	mkdir MW_573
+	cd MW_573
+	::Create virtual enivornment
+	virtualenv .
+	::Activate your environment
+	.\Scripts\MW_573
+	::Verify that it was setup correctly Run pip freeze and it should return nothing
+	pip freeze
+	::You can install any Python package to you environemtn with pip installer as nomormal, but it will only apply to your virtual environment.
+	::To install all libraries for a project at once run
+	pip install -r requirements.txt
+	::When you done working you can deactivate the environment
+	deactivate
+	::When you want to start working again just navigate to 
+	C:\dev\MW_573
+	::And activate it again
+	.\Scripts\activate
+
 2018 Scouting Apps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The scouting application rely on a Python library called htmlPy. This allows for Python to be used to take input from a webpage and store it in a SQLite database.
@@ -59,6 +89,12 @@ data.db - SQLite database
 We also used a few other Python scripts to collect and combined the SQLite databases from each scouter's tablet.
 
 The repo with the 2018 apps can be found here. (https://github.com/savage301/Team573_2018ScoutingApps)
+
+2019 Scouting Apps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The scouting application relies on a Python webframe work call Django. This allows for Python to take input from a webpage and store it in a SQLite database. This framework is used on thousand of active websites and allows for more flexiability than htmlPy, which was used for the 2018 scouting app.
+
+The repo with the 2019 app can be found here. (https://github.com/savage301/2019_Scouting_App) This will be a private repo until the end of the 2019 season. If you need access please talk to Coach Eric.
 
 .. toctree::
    :maxdepth: 2
