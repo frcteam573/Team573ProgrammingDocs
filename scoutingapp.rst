@@ -74,6 +74,14 @@ Lets say I wanted to create a virtual enviornment called MW_573, then in Powersh
 	::And activate it again
 	.\Scripts\activate
 
+Django
+------------------------------------------
+Django is a webframework for python.
+
+It's website is https://www.djangoproject.com/ and is a great resource for tutorials and finding libraries that can help. 
+
+To learn more about it I recommend stating there. For specific questions you can try sites like https://stackoverflow.com/ if you've run into a problem someone else probably has to. Stack Overflow has tons of coding questions answered. 
+
 2018 Scouting Apps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The scouting application rely on a Python library called htmlPy. This allows for Python to be used to take input from a webpage and store it in a SQLite database.
@@ -96,8 +104,4 @@ The scouting application relies on a Python webframe work call Django. This allo
 
 The repo with the 2019 app can be found here. (https://github.com/savage301/2019_Scouting_App) This will be a private repo until the end of the 2019 season. If you need access please talk to Coach Eric.
 
-.. toctree::
-   :maxdepth: 2
-   
-
-
+Currently the framework for the 2019 app has been setup and is on github. Now you can make a branch and work on a section (such as the pit scouting app). We will divide up the work at a future meeting.
