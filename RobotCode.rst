@@ -480,6 +480,8 @@ The limelight documentation can be found here.(http://docs.limelightvision.io/en
 
 Below is the code we used in order to get values from the limelight last year its a little different from the code provided on their website.
 
+In order for the code below to function correctly the camera must be setup with the correct team number and ip settings as desrcibed in the limelight documentation. (link above)
+
 .. code-block:: c++
 
 	//------------------------ vision read-in -----------------------------
