@@ -38,12 +38,14 @@ https://learn.adafruit.com/adafruit-vl53l0x-micro-lidar-distance-sensor-breakout
 In Robot.cpp
 
 .. code-block:: c++
+
 	DigitalInput Arduino {0};
 	bool valueout = Arduino.Get();
 
 In ArduinioCode.ino
 
 .. code-block:: c++
+
 	#include "Adafruit_VL53L0X.h"
 
 	Adafruit_VL53L0X lox = Adafruit_VL53L0X();
