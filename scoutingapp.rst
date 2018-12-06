@@ -61,7 +61,7 @@ Lets say I wanted to create a virtual enviornment called MW_573, then in Powersh
 	::Create virtual enivornment
 	virtualenv .
 	::Activate your environment
-	.\Scripts\MW_573
+	.\Scripts\activate
 	::Verify that it was setup correctly Run pip freeze and it should return nothing
 	pip freeze
 	::You can install any Python package to you environemtn with pip installer as nomormal, but it will only apply to your virtual environment.
