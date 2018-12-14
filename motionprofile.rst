@@ -8,9 +8,116 @@ Motion Profiling Of A FRC Drivebase
 
 Why Should I Care?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In many past games the autonomus modes have required robots to move on the play field in order to score or better position themseleves. While dead reckoning (saying move forward for 5 seconds, then do X for 2 more second, etc...) has worked ok in the past, the team in 2018 was able to sucessfully use enconders on each side of the drive base, along with a gyro to move about the field with relative accuracy. In 2018, P loops where used based on distance still required to move and angle required to reach. Examples of these functions are below. 
+In many past games the autonomus modes have required robots to move on the play field in order to score or better position themseleves. While dead reckoning (saying move forward for 5 seconds, then do X for 2 more second, etc...) has worked ok in the past, the use of sensor allows for more repeatable auto modes. The team in 2018 was able to sucessfully use enconders on each side of the drive base, along with a gyro to move about the field with relative accuracy. In 2018, P loops where used based on distance still required to move and angle required to reach. Examples of these functions are below. 
 
-While this works ok, it requires lots of testing, in order to get the paths to work. It also wastes time as each section must be given time to hit its mark, since the P loops must cover such as large range (0 to 90 degrees for example) they must be tuned such that they cannot move too quickly. To improve this 573 started looking at using motion profiling in the 2019 FRC season. 
+Straight Line Distance
+
+.. code-block:: c++
+
+void Drive::EncoderSetpoint(double setpoint) {
+
+	//Wheel moves 2.17 inches per motor revolution
+	//Calculating distance covered by robot through encoder
+
+	double leftEncoderVal = LeftDriveEncoder->Get();
+	double rightEncoderVal = RightDriveEncoder->Get();
+
+	double leftDistance = leftEncoderVal * 5 / 963;
+	frc::SmartDashboard::PutString("DB/String 2", to_string(leftDistance));
+	double rightDistance = rightEncoderVal * 5 / 963;
+	frc::SmartDashboard::PutString("DB/String 3", to_string(rightEncoderVal));
+	//double avgDistance = (leftDistance + rightDistance) / 2;
+	double avgDistance = rightDistance;
+
+	double distanceError = setpoint - avgDistance;
+	double kPEncoder = -0.4;
+	double output = kPEncoder * distanceError;
+
+	if(output > .75) {
+
+		output = .75;
+
+	} else if(output < -.75) {
+
+		output = -.75;
+
+	}
+
+	//------------------- Gyro stabilization -------------------------------
+
+	double gyroCurrent = MyGyro->GetAngle();
+	double gyroError = 0 - gyroCurrent;
+	double kPGyro = -0.04;
+	double PIDTurn = kPGyro * gyroError;
+
+	frc::SmartDashboard::PutString("DB/String 4", to_string(gyroCurrent));
+
+	if(PIDTurn > .5) {
+
+		PIDTurn = .5;
+
+	} else if(PIDTurn < -.5) {
+
+		PIDTurn = -.5;
+
+	}
+
+	//Hardcoding arcade drive with y and pivot axes
+	double leftPower = output + PIDTurn;
+	double rightPower = output - PIDTurn;
+
+	if (leftPower > .9){
+		leftPower = .9;
+	}
+	else if (leftPower < -.9){
+		leftPower = -.9;
+	}
+
+	if (rightPower > .9){
+		rightPower = .9;
+	}
+	else if (rightPower < -.9){
+		rightPower = -.9;
+	}
+	LeftDrive->Set(leftPower); //Set left value to left drive
+	RightDrive->Set(rightPower); //Set right value to right drive
+
+}
+
+Turn to Angle
+
+.. code-block:: c++
+
+void Drive::GyroSetpoint(double degrees) {
+
+	double gyroCurrent = MyGyro->GetAngle();
+	double gyroError = degrees - gyroCurrent;
+	double PIDTurn;
+	double kP = -0.015;
+	PIDTurn = kP * gyroError;
+
+	frc::SmartDashboard::PutString("DB/String 1", to_string(gyroCurrent));
+
+	if(PIDTurn > .8) {
+
+		PIDTurn = .8;
+
+	} else if(PIDTurn < -.8) {
+
+		PIDTurn = -.8;
+
+	}
+
+	//Hardcoding arcade drive with y and pivot axes
+	double leftPower = PIDTurn;
+	double rightPower = -1 * PIDTurn;
+
+	LeftDrive->Set(leftPower); //Set left value to left drive
+	RightDrive->Set(rightPower); //Set right value to right drive
+
+}
+
+While this works ok, it requires lots of testing in order to get the paths to work. It also wastes time as each section must be given time to hit its mark. Since the P loops must cover such as large range (0 to 90 degrees for example) they must be tuned such that they cannot move too quickly. To improve this 573 started looking at using motion profiling in the 2019 FRC season. 
 
 Using motion profiling will,
 
@@ -26,11 +133,15 @@ A great lecture we used to help get our head around this topic was done in 2015 
 
 Path Planning / Waypoints
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Figure out what points you want to go to and in what oreintation. Get a layout of the field with X and Y coordinates. Plot out the path you want.
+Path planning is simply figure out where you are and where you want to go. While this can be very complicated for unknown environments, a FRC field is in a known state at the beginning of each macth. So to plan your path you must decide where you're starting, what points you want to go to and in what oreintation. 
+
+To easily do this get a layout of the field with X and Y coordinates. Plot out the path(s) you want.
+
+Then you connect the dots. Generally using a cubic or quartic function. If you want to know how to do this you can talk to Coach Eric, but the motion profile generator discussed in the Trajectory Generation section does this for you.
 
 Trajectory Generation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Apply velocities to path, to trim max velocities and accelerations.
+You create a trajectory from your path. Basically you are using the path and physical constraints of your robot, such as peak velocity, peak acceleration, and drive base type/size. You apply wheel velocities so the robot follows the path. This creates a trajectory, or a table of the speeds required for each wheel at each point in time. This table will be used to follow the path in our feed forward controller.
 
 A good generator is online at. https://github.com/vannaka/Motion_Profile_Generator
 
@@ -38,14 +149,17 @@ The output from this can be input into the Talon SRX motion profiling, or into o
 
 Follow the Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Need well timed loop, use TimedRobot. 
+The next step is to have the robot follow the path. To do this we need well timed loop, since our trajectory table is based upon time. You should use TimedRobot and make sure your cycle time matches the one used for the table. 
 
 Feed Forward Control
 -------------------------------------------------------------
+In order to determine the output to send to the motors we use a feed forward control loop on each wheel
 
-Output = F + PID
+Output = F + PID (If possible try with just P term)
 
-Output = Kv *(Current Velocity - Expected Velocity) + PID 
+Output = Kv *(Current Velocity-Expected Velocity) + Kp*(Current Position - Expected Position)
+
+We get the current velocity and position from the wheel encoders. The expected values we can look up from our trajectory table.
 
 Robot Kinematics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,6 +186,3 @@ The forward kinematics allow us to calculate the new position and orientation (p
 
 .. toctree::
    :maxdepth: 2
-
-
-
