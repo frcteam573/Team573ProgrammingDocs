@@ -122,7 +122,9 @@ While this works ok, it requires lots of testing in order to get the paths to wo
 Using motion profiling will,
 
 -Smooth Out the Robot Motion
+
 -Allow for the Robot to Move Faster
+
 -Allow for Changes in the Paths Quickly with Minimal Testing
 
 The rest of this page documents the theory behind our method, how we implemented it and some of the issues we ran into.
