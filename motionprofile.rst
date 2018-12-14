@@ -14,108 +14,108 @@ Straight Line Distance
 
 .. code-block:: c++
 
-void Drive::EncoderSetpoint(double setpoint) {
+	void Drive::EncoderSetpoint(double setpoint) {
 
-	//Wheel moves 2.17 inches per motor revolution
-	//Calculating distance covered by robot through encoder
+		//Wheel moves 2.17 inches per motor revolution
+		//Calculating distance covered by robot through encoder
 
-	double leftEncoderVal = LeftDriveEncoder->Get();
-	double rightEncoderVal = RightDriveEncoder->Get();
+		double leftEncoderVal = LeftDriveEncoder->Get();
+		double rightEncoderVal = RightDriveEncoder->Get();
 
-	double leftDistance = leftEncoderVal * 5 / 963;
-	frc::SmartDashboard::PutString("DB/String 2", to_string(leftDistance));
-	double rightDistance = rightEncoderVal * 5 / 963;
-	frc::SmartDashboard::PutString("DB/String 3", to_string(rightEncoderVal));
-	//double avgDistance = (leftDistance + rightDistance) / 2;
-	double avgDistance = rightDistance;
+		double leftDistance = leftEncoderVal * 5 / 963;
+		frc::SmartDashboard::PutString("DB/String 2", to_string(leftDistance));
+		double rightDistance = rightEncoderVal * 5 / 963;
+		frc::SmartDashboard::PutString("DB/String 3", to_string(rightEncoderVal));
+		//double avgDistance = (leftDistance + rightDistance) / 2;
+		double avgDistance = rightDistance;
 
-	double distanceError = setpoint - avgDistance;
-	double kPEncoder = -0.4;
-	double output = kPEncoder * distanceError;
+		double distanceError = setpoint - avgDistance;
+		double kPEncoder = -0.4;
+		double output = kPEncoder * distanceError;
 
-	if(output > .75) {
+		if(output > .75) {
 
-		output = .75;
+			output = .75;
 
-	} else if(output < -.75) {
+		} else if(output < -.75) {
 
-		output = -.75;
+			output = -.75;
+
+		}
+
+		//------------------- Gyro stabilization -------------------------------
+
+		double gyroCurrent = MyGyro->GetAngle();
+		double gyroError = 0 - gyroCurrent;
+		double kPGyro = -0.04;
+		double PIDTurn = kPGyro * gyroError;
+
+		frc::SmartDashboard::PutString("DB/String 4", to_string(gyroCurrent));
+
+		if(PIDTurn > .5) {
+
+			PIDTurn = .5;
+
+		} else if(PIDTurn < -.5) {
+
+			PIDTurn = -.5;
+
+		}
+
+		//Hardcoding arcade drive with y and pivot axes
+		double leftPower = output + PIDTurn;
+		double rightPower = output - PIDTurn;
+
+		if (leftPower > .9){
+			leftPower = .9;
+		}
+		else if (leftPower < -.9){
+			leftPower = -.9;
+		}
+
+		if (rightPower > .9){
+			rightPower = .9;
+		}
+		else if (rightPower < -.9){
+			rightPower = -.9;
+		}
+		LeftDrive->Set(leftPower); //Set left value to left drive
+		RightDrive->Set(rightPower); //Set right value to right drive
 
 	}
-
-	//------------------- Gyro stabilization -------------------------------
-
-	double gyroCurrent = MyGyro->GetAngle();
-	double gyroError = 0 - gyroCurrent;
-	double kPGyro = -0.04;
-	double PIDTurn = kPGyro * gyroError;
-
-	frc::SmartDashboard::PutString("DB/String 4", to_string(gyroCurrent));
-
-	if(PIDTurn > .5) {
-
-		PIDTurn = .5;
-
-	} else if(PIDTurn < -.5) {
-
-		PIDTurn = -.5;
-
-	}
-
-	//Hardcoding arcade drive with y and pivot axes
-	double leftPower = output + PIDTurn;
-	double rightPower = output - PIDTurn;
-
-	if (leftPower > .9){
-		leftPower = .9;
-	}
-	else if (leftPower < -.9){
-		leftPower = -.9;
-	}
-
-	if (rightPower > .9){
-		rightPower = .9;
-	}
-	else if (rightPower < -.9){
-		rightPower = -.9;
-	}
-	LeftDrive->Set(leftPower); //Set left value to left drive
-	RightDrive->Set(rightPower); //Set right value to right drive
-
-}
 
 Turn to Angle
 
 .. code-block:: c++
 
-void Drive::GyroSetpoint(double degrees) {
+	void Drive::GyroSetpoint(double degrees) {
 
-	double gyroCurrent = MyGyro->GetAngle();
-	double gyroError = degrees - gyroCurrent;
-	double PIDTurn;
-	double kP = -0.015;
-	PIDTurn = kP * gyroError;
+		double gyroCurrent = MyGyro->GetAngle();
+		double gyroError = degrees - gyroCurrent;
+		double PIDTurn;
+		double kP = -0.015;
+		PIDTurn = kP * gyroError;
 
-	frc::SmartDashboard::PutString("DB/String 1", to_string(gyroCurrent));
+		frc::SmartDashboard::PutString("DB/String 1", to_string(gyroCurrent));
 
-	if(PIDTurn > .8) {
+		if(PIDTurn > .8) {
 
-		PIDTurn = .8;
+			PIDTurn = .8;
 
-	} else if(PIDTurn < -.8) {
+		} else if(PIDTurn < -.8) {
 
-		PIDTurn = -.8;
+			PIDTurn = -.8;
+
+		}
+
+		//Hardcoding arcade drive with y and pivot axes
+		double leftPower = PIDTurn;
+		double rightPower = -1 * PIDTurn;
+
+		LeftDrive->Set(leftPower); //Set left value to left drive
+		RightDrive->Set(rightPower); //Set right value to right drive
 
 	}
-
-	//Hardcoding arcade drive with y and pivot axes
-	double leftPower = PIDTurn;
-	double rightPower = -1 * PIDTurn;
-
-	LeftDrive->Set(leftPower); //Set left value to left drive
-	RightDrive->Set(rightPower); //Set right value to right drive
-
-}
 
 While this works ok, it requires lots of testing in order to get the paths to work. It also wastes time as each section must be given time to hit its mark. Since the P loops must cover such as large range (0 to 90 degrees for example) they must be tuned such that they cannot move too quickly. To improve this 573 started looking at using motion profiling in the 2019 FRC season. 
 
