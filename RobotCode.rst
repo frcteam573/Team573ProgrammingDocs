@@ -226,6 +226,7 @@ Other useful commands to use with the Encoder are
 LeftDriveEncoder->Reset(); // Resets number of rotations to zero.
 
 
+
 Gyros
 ---------------------------------------------------
 A gyro measures angle and angluar velocity. We use it to help keep the robot driving in a straight line. One thing to watch out for with gyros is drift. Over time a stationary gyro's output will increase. 
@@ -321,7 +322,7 @@ if this sensor is true
 else 
 	don't do this
 
-It doesn't help us much when we want to do more complicated things such as make a robot drive forward for a certain distance. But with control loops we can get a robot to behave alot more like a human would.
+It doesn't help us much when we want to do more complicated things such as make a robot drive forward for a certain distance. But with control loops we can get a robot to behave a lot more like a human would.
 Speed up when we are far away and slow down as we approach. All with a few lines of code and bit of math.
 
 Proportional Control
