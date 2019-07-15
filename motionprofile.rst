@@ -141,6 +141,9 @@ To easily do this get a layout of the field with X and Y coordinates. Plot out t
 
 Then you connect the dots. Generally using a cubic or quartic function. If you want to know how to do this you can talk to Coach Eric, but the motion profile generator discussed in the Trajectory Generation section does this for you.
 
+Last year, we generated a path using a simple java program and ran the outputs through a python script which created a text file we could copy and paste into the code with the correct data our function required. 
+
+
 Trajectory Generation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You create a trajectory from your path. Basically you are using the path and physical constraints of your robot, such as peak velocity, peak acceleration, and drive base type/size. You apply wheel velocities so the robot follows the path. This creates a trajectory, or a table of the speeds required for each wheel at each point in time. This table will be used to follow the path in our feed forward controller.
@@ -167,7 +170,7 @@ Robot Kinematics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This is assumed by the trajectory generator we used above,
 
-In order to create motion profiles we must first describe the system, in our case a FRC robot with 6 wheel tank drive. Since there is a drop center we assume a 2 wheel differental drive robot in our inital model. Since the robot stays on a flat floor we can assume the field as a 2D plane. We used the information in the paper in the link below to determine the forward kinematics of the robot.
+In order to create motion profiles we must first describe the system, in our case a FRC robot with 6 wheel tank drive. Since there is a drop center, we assume a 2 wheel differental drive robot in our inital model. Since the robot stays on a flat floor, we can assume the field as a 2D plane. We used the information in the paper in the link below to determine the forward kinematics of the robot.
 
 http://www8.cs.umu.se/kurser/5DV122/HT13/material/Hellstrom-ForwardKinematics.pdf
 
