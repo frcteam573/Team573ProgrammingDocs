@@ -156,6 +156,9 @@ Follow the Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The next step is to have the robot follow the path. To do this we need well timed loop, since our trajectory table is based upon time. You should use TimedRobot and make sure your cycle time matches the one used for the table. 
 
+Here is one of the paths we used last year:
+.. image:: /_static/Screenshot (28).PNG
+
 Feed Forward Control
 -------------------------------------------------------------
 In order to determine the output to send to the motors we use a feed forward control loop on each wheel
