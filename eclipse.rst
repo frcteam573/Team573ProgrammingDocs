@@ -5,6 +5,8 @@
 
 Eclipse For FRC
 ==============================================================
+So we don' use Eclipse anymore because FIRST changed it to Visual Studio. I (ellie) don't feel like completely redoing the page at the current moment so just google Visual Studio and whatever your question is :)
+
 Eclipse is a integrated development environment (IDE) we use for working on and organizing C++ code.
 
 How To Setup Eclipse On Your Computer
