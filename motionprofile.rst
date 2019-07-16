@@ -158,7 +158,7 @@ The next step is to have the robot follow the path. To do this we need well time
 
 Here is one of the paths we used last year:
 
-.. image:: /_static/Screenshot(28).PNG
+.. image:: /_static/ Screenshot(28).PNG
 
 Feed Forward Control
 -------------------------------------------------------------
