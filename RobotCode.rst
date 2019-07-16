@@ -9,6 +9,16 @@ This section goes over tips and how to's for C++ robot code specifically for FRC
 
 Stock Code Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In Robot.cpp, there are different sections of the code that have different functions when we run them. 
+
+* note: "int" stands for initialization * 
+
+First is the robot int section. This portion of the code runs as soon as the robot is turned on. It doesn't run again until the robot is power cycled again. 
+
+The next section that comes is the autonomous int section. This portion of the code runs as soon as the autonomous mode is enabled. It doesn't run again until autonomous mode is disabled and enabled again. After that comes autonomous periodic. This portion of the code runs after autonomous int finishes running, and runs the entire time autonomous mode is enabled. It contains all of the functions you will run or choose to run during the autonomous period.
+
+The last two sections are teleop int and teleop periodic. Teleop int, like the other int sections, runs when teleop is enabled, and doesn't run unless teleop is disabled and enabled again. Teleop periodic, which comes after teleop int, runs after autonomous int finishes running and runs the entire time teleop is enabled. It contains all of the functions you will run or choose to run during the teleop period.
+
 How to build and deploy code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 WPILIB
