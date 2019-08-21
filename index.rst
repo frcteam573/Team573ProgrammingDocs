@@ -12,7 +12,7 @@ Welcome to Team 573 Programming Documentation!
    Intro <Intro.rst>
    C++ Programming for FRC <CforFRC.rst>
    Github <github.rst>
-   Eclipse Setup for FRC <eclipse.rst>
+   VSCode Setup for FRC <eclipse.rst>
    FRC Electrical Quick Reference <electrical.rst>
    Coding for FRC Robot <RobotCode.rst>
    Motion Profiling <motionprofile.rst>
