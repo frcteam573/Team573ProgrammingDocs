@@ -17,7 +17,7 @@ With multiple people working on the code at once it is important that we all fol
 
 1. Work in separate branches as to not overwrite someone elses work.
 2. Feel free to commit your code as often as you like, but atleast at the end of every session you work on it.
-3. Follow the programming to electric guide. If a change to it is required both the programming and electrical team leads need to agree to it.
+3. Follow the programming to electrical guide (interface control document ICD). If a change to it is required both the programming and electrical team leads need to agree to it.
 4. Submit a pull request to merge code back into the master or other person's branch. Use this to share code, don't use email or usb sticks.
 
 
