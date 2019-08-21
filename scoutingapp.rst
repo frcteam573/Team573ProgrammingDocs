@@ -102,9 +102,8 @@ The repo with the 2018 apps can be found here. (https://github.com/savage301/Tea
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The scouting application relies on a Python webframe work call Django. This allows for Python to take input from a webpage and store it in a SQLite database. This framework is used on thousand of active websites and allows for more flexiability than htmlPy, which was used for the 2018 scouting app.
 
-The repo with the 2019 app can be found here. (https://github.com/savage301/2019_Scouting_App) This will be a private repo until the end of the 2019 season. If you need access please talk to Coach Eric.
+The repo with the 2019 app can be found here. (https://github.com/savage301/2019_Scouting_App) 
 
-Currently the framework for the 2019 app has been setup and is on github. Now you can make a branch and work on a section (such as the pit scouting app). We will divide up the work at a future meeting.
 
 .. toctree::
    :maxdepth: 2
