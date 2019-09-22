@@ -9,7 +9,7 @@ On Team 573 we have used C++ to program our FRC robots for the past 2 years. Thi
 
 Where to Start Learning C++ Programming
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-There are many great websites to teach you how to use C++ code. I like code academy. If you want to get started from scratch in programming at home this is a great place to get started. The rest of this section briefly covers some of the things in C++ that we use in FRC robotics
+There are many great websites to teach you how to use C++ code. I like code academy, here is a c++ overview, https://www.codecademy.com/learn/learn-c-plus-plus If you want to get started from scratch in programming at home this is a great place to get started. The rest of this section briefly covers some of the things in C++ that we use in FRC robotics
 
 Variable Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
