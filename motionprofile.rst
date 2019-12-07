@@ -193,5 +193,16 @@ The final forward kinematics were determined to be,
 
 The forward kinematics allow us to calculate the new position and orientation (pose) of the robot, if the previous pose and wheel encorder counts were known.
 
+2020 Motion Profiling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+During the 2019 season, Team 573 used motion profiling for the first time. You can see in detail how it was done in the 2019 Robot code, but the short version is.
+
+-Generate multiple trajectorys using motion profile generation found, https://github.com/vannaka/Motion_Profile_Generator a head of time.
+-Hard code those trajectorys in code.
+-Lookup wheel position and velocities from trajectorys as the robot goes through the motion. 
+-Use a PID loop to control robot to follow trajectory.
+
+In 2020 the WPILIB has expanded to include several functions that will allow for trajectory generation to be done on the fly. Documentation of these new functions can be found here, https://docs.wpilib.org/en/latest/docs/software/kinematics-and-odometry/intro-and-chassis-speeds.html and https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/path-planning/wpilib-trajectories/index.html
+
 .. toctree::
    :maxdepth: 2
