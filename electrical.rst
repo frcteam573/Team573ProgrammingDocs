@@ -10,7 +10,7 @@ FRC Control System Overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 A good overview of FRC electronics can be found below,
 
-https://wpilib.screenstepslive.com/s/currentCS/m/cs_hardware/c/86642
+https://docs.wpilib.org/en/latest/docs/getting-started/getting-started-frc-control-system/control-system-hardware.html
 
 Interface Control Document (ICD)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
