@@ -8,17 +8,23 @@ Visual Studio For FRC
 So we don't use Eclipse anymore because FIRST changed it to Visual Studio. 
 Visual Studio is a integrated development environment (IDE) we use for working on and organizing C++ code.
 
+FRC Control System Help Documentation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is the documentation from FIRST for how to setup and run the control system.
+
+https://docs.wpilib.org/en/latest/
+
 How To Setup Visual Studio On Your Computer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can follow the instructions for installing eclipse and other FRC libraries on your computer. You only need to install things related to C++. 
 
-https://wpilib.screenstepslive.com/s/currentCS/a/932382-installing-visual-studio-code-c-java
+https://docs.wpilib.org/en/latest/docs/getting-started/getting-started-frc-control-system/offline-installation-preparations.html
 
 How To Create A New Project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Visual Studio basics can be found at this link below:
 
-https://wpilib.screenstepslive.com/s/currentCS/m/cpp/l/145319-creating-your-benchtop-test-program
+https://docs.wpilib.org/en/latest/docs/getting-started/running-a-benchtop/creating-benchtop-test-program-cpp-java.html
 
 
 .. toctree::
