@@ -18,13 +18,13 @@ How To Setup Visual Studio On Your Computer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can follow the instructions for installing eclipse and other FRC libraries on your computer. You only need to install things related to C++. 
 
-https://docs.wpilib.org/en/latest/docs/getting-started/getting-started-frc-control-system/offline-installation-preparations.html
+https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/index.html
 
 How To Create A New Project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Visual Studio basics can be found at this link below:
 
-https://docs.wpilib.org/en/latest/docs/getting-started/running-a-benchtop/creating-benchtop-test-program-cpp-java.html
+https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-4/creating-benchtop-test-program-cpp-java.html
 
 
 .. toctree::

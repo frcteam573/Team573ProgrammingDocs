@@ -10,7 +10,7 @@ FRC Control System Overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 A good overview of FRC electronics can be found below,
 
-https://docs.wpilib.org/en/latest/docs/getting-started/getting-started-frc-control-system/control-system-hardware.html
+https://docs.wpilib.org/en/stable/docs/controls-overviews/control-system-hardware.html
 
 Interface Control Document (ICD)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -21,7 +21,7 @@ We use a spreadsheet called an interface control document to organize what ports
 
 CAN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CAN is a method for commucating between the RoboRio and other electronics. We only use it to talk to the power distrbution board (PDP) and Pnuematic Control Module (PCM). In order to update the firmware and set the CAN ID you can follow the steps here (https://wpilib.screenstepslive.com/s/currentCS/m/cs_hardware/l/216217-updating-and-configuring-pneumatics-control-module-and-power-distribution-panel)
+CAN is a method for commucating between the RoboRio and other electronics. We use it to talk to the power distrbution board (PDP), Pnuematic Control Module (PCM) and our motor controllers (sparks).
 
 
 
