@@ -103,7 +103,14 @@ The repo with the 2018 apps can be found here. (https://github.com/savage301/Tea
 The scouting application relies on a Python webframe work call Django. This allows for Python to take input from a webpage and store it in a SQLite database. This framework is used on thousand of active websites and allows for more flexiability than htmlPy, which was used for the 2018 scouting app.
 
 The repo with the 2019 app can be found here. (https://github.com/savage301/2019_Scouting_App) 
+It has a readme with a link to good getting started with Django instructions.
 
+2020 Scouting Apps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The scouting application relies on a Python webframe work call Django. This allows for Python to take input from a webpage and store it in a SQLite database. This framework is used on thousand of active websites and allows for more flexiability than htmlPy, which was used for the 2018 scouting app.
+
+The repo with the 2020 app can be found here. (https://github.com/savage301/2020_Scouting_App)
+It has a readme with a link to good getting started with Django instructions.
 
 .. toctree::
    :maxdepth: 2
