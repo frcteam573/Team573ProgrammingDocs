@@ -166,7 +166,13 @@ In order to determine the output to send to the motors we use a feed forward con
 
 Output = F + PID (If possible try with just P term)
 
-Output = Kv *(Current Velocity-Expected Velocity) + Kp*(Current Position - Expected Position)
+Output = Kv *(Expected Velocity) + Kp*(Current Position - Expected Position)
+
+Then adjust it to account for heading error, to get left and right side drive values.
+
+Output_Left = Output + Kh * (Current Heading - Expected Heading)
+
+Output_Right = Output - Kh * (Current Heading - Expected Heading)
 
 We get the current velocity and position from the wheel encoders. The expected values we can look up from our trajectory table.
 
@@ -193,7 +199,7 @@ The final forward kinematics were determined to be,
 
 The forward kinematics allow us to calculate the new position and orientation (pose) of the robot, if the previous pose and wheel encorder counts were known.
 
-2020 Motion Profiling
+Current State of Team 573 Motion Profiling
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 During the 2019 season, Team 573 used motion profiling for the first time. You can see in detail how it was done in the 2019 Robot code, but the short version is.
 
@@ -202,7 +208,21 @@ During the 2019 season, Team 573 used motion profiling for the first time. You c
 -Lookup wheel position and velocities from trajectorys as the robot goes through the motion. 
 -Use a PID loop to control robot to follow trajectory.
 
-In 2020 the WPILIB has expanded to include several functions that will allow for trajectory generation to be done on the fly. Documentation of these new functions can be found here, https://docs.wpilib.org/en/latest/docs/software/kinematics-and-odometry/intro-and-chassis-speeds.html and https://docs.wpilib.org/en/latest/docs/software/wpilib-tools/path-planning/wpilib-trajectories/index.html
+During the 2020/2021 seasons, Team 573 used motion profiling again with greater sucess particularly in the at home autonomous challenges. You can see in detail how it was done in the 2021 Robot code, but the short version is.
+
+-Generate trajectorys using motion profile generation found, https://github.com/vannaka/Motion_Profile_Generator a head of time.
+-Run those trajectorys through team built Python Code to convert the heading to account for continous gyro and when robots need to go backwards.
+-Hard code those trajectorys in code.
+-Lookup wheel position, velocities and robot heading from trajectorys as the robot goes through the motion. 
+-Use a Velocity feedforward P loop to control robot to follow trajectory.
+
+Video of 2021 Auto Mode
+
+.. raw:: html
+
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe src="https://www.youtube.com/embed/ySGWh0Dqs-A" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+    </div>
 
 .. toctree::
    :maxdepth: 2
