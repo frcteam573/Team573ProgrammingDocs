@@ -204,16 +204,23 @@ Current State of Team 573 Motion Profiling
 During the 2019 season, Team 573 used motion profiling for the first time. You can see in detail how it was done in the 2019 Robot code, but the short version is.
 
 -Generate multiple trajectorys using motion profile generation found, https://github.com/vannaka/Motion_Profile_Generator a head of time.
+
 -Hard code those trajectorys in code.
+
 -Lookup wheel position and velocities from trajectorys as the robot goes through the motion. 
+
 -Use a PID loop to control robot to follow trajectory.
 
 During the 2020/2021 seasons, Team 573 used motion profiling again with greater sucess particularly in the at home autonomous challenges. You can see in detail how it was done in the 2021 Robot code, but the short version is.
 
 -Generate trajectorys using motion profile generation found, https://github.com/vannaka/Motion_Profile_Generator a head of time.
+
 -Run those trajectorys through team built Python Code to convert the heading to account for continous gyro and when robots need to go backwards.
+
 -Hard code those trajectorys in code.
+
 -Lookup wheel position, velocities and robot heading from trajectorys as the robot goes through the motion. 
+
 -Use a Velocity feedforward P loop to control robot to follow trajectory.
 
 Video of 2021 Auto Mode
