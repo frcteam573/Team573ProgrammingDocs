@@ -10,6 +10,17 @@ Programming Team Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The programming team structure is TBD.
 
+
+Function Diagrams
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+With multiple people working on the code it is important for everyone to understand the inputs and outputs required for any fuction they are working on. These will be determined before any code is written to ensure that those inputs are available and we are duplicating effort. A function diagram should be created for each function using the template below. 
+
+https://docs.google.com/presentation/d/1dysQhIk6Uio0mnP0Rq4CxR0qfS9Q8uAEkVI4v6xz_WE/edit?usp=sharing
+
+Each function diagram should then be stored in the team's Google Drive programming folder and updated as needed throughout the season.
+
+
 How To Divide and Conquer Code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
