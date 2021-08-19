@@ -148,7 +148,7 @@ Trajectory Generation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You create a trajectory from your path. Basically you are using the path and physical constraints of your robot, such as peak velocity, peak acceleration, and drive base type/size. You apply wheel velocities so the robot follows the path. This creates a trajectory, or a table of the speeds required for each wheel at each point in time. This table will be used to follow the path in our feed forward controller.
 
-A good generator is online at. https://github.com/vannaka/Motion_Profile_Generator
+Based on the work done in 2021 season, we've taken a good generator is from online, and added some custom code. This way the output is in the format we want. It also allows for use to handle loops in the heading. Its located https://github.com/savage301/Motion_Profile_Generator
 
 The output from this can be input into the Talon SRX motion profiling, or into our own.
 
