@@ -190,7 +190,7 @@ In the past we have also used:
 	- Ultrasonic sensors to measure distance
 	- Limit switchs (Light gates and press types)
 
-While it maybe tempting to assume that if we have a sensor we can control a mechanism, this is not always the case. A mechanism's mechanical properties greatly influence its controlability. As a the programming team it is important to raise any controlability concerns with the mechanical team. 
+While it maybe tempting to assume that if we have a sensor we can control a mechanism, this is not always the case. A mechanism's mechanical properties greatly influence its controlability. As the programming team it is important to raise any controlability concerns with the mechanical team. 
 
 An example from this team. In 2016, the team made a shooter that moved up and down on a pivot to aim before shooting. While there was a camera that could tell the arm to angle up or down to align with the goal, the way the motor and counter balance were designed the arm would bounce when it was roughly at 45 degrees. This was because the gas springs (counter balance) would overcome gravity at that point. This meant that there was no way to keep the arm steady around 45 degrees to shoot. This forced the team to change the distance it would shoot from and put extra stress on the motors. If you want more information about this you can talk to Coach Eric, Coach Lisa or Coach Marc who were all on the team then.
 
