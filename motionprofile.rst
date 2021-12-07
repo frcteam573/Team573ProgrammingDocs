@@ -135,22 +135,22 @@ A great lecture we used to help get our head around this topic was done in 2015 
 
 Path Planning / Waypoints
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Path planning is simply figure out where you are and where you want to go. While this can be very complicated for unknown environments, a FRC field is in a known state at the beginning of each macth. So to plan your path you must decide where you're starting, what points you want to go to and in what oreintation. 
+Path planning is simply figuring out where you want to go from where you currently are. While this can be very complicated for unknown environments, a FRC field is in a known state at the beginning of each macth. So to plan your path you must decide where you're starting, what points you want to go to and in what oreintation. 
 
-To easily do this get a layout of the field with X and Y coordinates. Plot out the path(s) you want.
+To do this you can get a layout of the field with X and Y coordinates and plot out the path(s) you want.
 
 Then you connect the dots. Generally using a cubic or quartic function. If you want to know how to do this you can talk to Coach Eric, but the motion profile generator discussed in the Trajectory Generation section does this for you.
 
-Last year, we generated a path using a simple java program and ran the outputs through a python script which created a text file we could copy and paste into the code with the correct data our function required. 
+In 2020 and 2021, we generated a path using a simple java program and ran the outputs through a python script which created a text file we could copy and paste into the code with the correct data our function required. 
 
 
 Trajectory Generation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You create a trajectory from your path. Basically you are using the path and physical constraints of your robot, such as peak velocity, peak acceleration, and drive base type/size. You apply wheel velocities so the robot follows the path. This creates a trajectory, or a table of the speeds required for each wheel at each point in time. This table will be used to follow the path in our feed forward controller.
 
-Based on the work done in 2021 season, we've taken a good generator is from online, and added some custom code. This way the output is in the format we want. It also allows for use to handle loops in the heading. Its located https://github.com/savage301/Motion_Profile_Generator
+Based on the work done in 2021 season, we've taken a good generator from online, and added some custom code. This way the output is in the format we want. It also allows for us to handle loops in the heading. Its located https://github.com/savage301/Motion_Profile_Generator
 
-The output from this can be input into the Talon SRX motion profiling, or into our own.
+The output from this can be input into the Talon SRX motion profiling, or into our own code.
 
 Follow the Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -178,7 +178,7 @@ We get the current velocity and position from the wheel encoders. The expected v
 
 Robot Kinematics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This is assumed by the trajectory generator we used above,
+This is assumed by the trajectory generator we used above. So unless your instrested in the theory behind it you can skip this section.
 
 In order to create motion profiles we must first describe the system, in our case a FRC robot with 6 wheel tank drive. Since there is a drop center, we assume a 2 wheel differental drive robot in our inital model. Since the robot stays on a flat floor, we can assume the field as a 2D plane. We used the information in the paper in the link below to determine the forward kinematics of the robot.
 
