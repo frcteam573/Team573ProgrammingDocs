@@ -96,11 +96,11 @@ In ArduinioCode.ino
 
 LED Light Control
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Sometimes the team uses LEDs on the robot for decoration and indicator lights. When we use RGB leds it is conveient to use an arduino to control the light colors based upon input from the RoboRio. 
+The team used to use an ardiuno to control LEDs, but in 2020, the team used LEDs as indicator lights for when the robot was ready to shoot into the goal. Instead of using an arduino we purchased Rev Robotics Blinkin LED Driver.
 
-There are some ardiuno libraries that are written to control RGB LED light strips such as FastLED. Some sample code which uses this library can be found on AndyMark's website. 
+https://www.revrobotics.com/rev-11-1105/
 
-https://www.andymark.com/products/rgb-individually-addressable-led-light-strip-with-arduino-controller-kit
+This product made LED implementation quick and robust and we plan to use it again in the future.
 
 
 .. toctree::
