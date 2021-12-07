@@ -9,15 +9,15 @@ This section goes over tips and how to's for C++ robot code specifically for FRC
 
 Stock Code Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In Robot.cpp, there are different sections of the code that have different functions when we run them. 
+The FIRST Robotics Competition provides a code structure that must be used. The main file is called Robot.cpp. Within that file there are different functions that run during particular parts of each match. 
 
 * note: "init" stands for initialization * 
 
-First is the robot init section. This portion of the code runs as soon as the robot is turned on. It doesn't run again until the robot is power cycled again. 
+First is the robot init function. This portion of the code runs as soon as the robot is turned on. It doesn't run again until the robot is power cycled again. 
 
-The next section that comes is the autonomous init section. This portion of the code runs as soon as the autonomous mode is enabled. It doesn't run again until autonomous mode is disabled and enabled again. After that comes autonomous periodic. This portion of the code runs after autonomous init finishes running, and runs the entire time autonomous mode is enabled. It contains all of the functions you will run or choose to run during the autonomous period.
+The next function is the autonomous init section. This portion of the code runs as soon as the autonomous mode is enabled. It doesn't run again until autonomous mode is disabled and enabled again. After that comes autonomous periodic. This portion of the code runs after autonomous init finishes running, and it constantly loops through itself the entire time autonomous mode is enabled. Here is where you need to put all of the functions you will run during the autonomous period.
 
-The last two sections are teleop init and teleop periodic. Teleop init, like the other init sections, runs when teleop is enabled, and doesn't run unless teleop is disabled and enabled again. Teleop periodic, which comes after teleop init, runs after autonomous init finishes running and runs the entire time teleop is enabled. It contains all of the functions you will run or choose to run during the teleop period.
+The last two functions are teleop init and teleop periodic. Teleop init, like the other init sections, runs when teleop is enabled, and doesn't run unless teleop is disabled and enabled again. Teleop periodic, which comes after teleop init, runs after teleop init finishes running and runs the entire time teleop is enabled. Here is where you need to put all the functions you want to run during the teleop period.
 
 How to build and deploy code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -361,19 +361,19 @@ Intergral Control
 -------------------------------------------------------------------
 Imagine in our situtation our proportional controller gets us to 14.5 ft, but we need it to get a little bit closer to 15. While our factor Kp works great to get us close once the error gets below 0.5 ft the output is so small the robot doesn't move.
 
-To get over this we can use a intergral controller. It is structured very similarily to a proportional controller except we look at acculated error instead of current error.
+To get over this we can use a intergral controller. It is structured similar to a proportional controller except we look at accumulated error instead of current error.
 
 Acculated Error = Sum over time(Desired position - Current Position)
 
 Motor Value = Ki * Acculated Error
 
-In actual use we generally limit the time over which the error is accumlated otherwise it would get so big that it would go out of control. 
+In the real world, use we generally limit the time over which the error is accumlated (for example the last 10 samples) otherwise it would get so big that it would go out of control. 
 
 Deriviative Control
 -------------------------------------------------------------------
 Now imagine another situation where our proportional controller causes us to over shoot 15 ft to 16 ft then back to 14ft over and over again. This oscillation happens because the change in error is so rapid that the motor output cannot change quickly enough to react to it, so it over shoots.
 
-To help correct this we can use a derivative controller. It is structured very similarily to a proportional controller except we look at the change in error instead of current error.
+To help correct this we can use a derivative controller. It is structured similarly to a proportional controller except we look at the change in error instead of current error.
 
 Change in Error = (Desired position - Current Position)t=0 - (Desired position - Current Position)t=-1
 
