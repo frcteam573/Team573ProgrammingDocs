@@ -19,6 +19,7 @@ Welcome to Team 573 Programming Documentation!
    Arduino on a FRC Robot <ArduinoCode.rst>
    FRC Driver Station <DS.rst>
    Scouting App <scoutingapp.rst>
+   CAD History <CAD.rst>
 .. Intro to Python
 .. Intro to Sqlite
 .. 2018 Scouting Apps
