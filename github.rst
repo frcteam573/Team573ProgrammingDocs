@@ -16,7 +16,7 @@ While the code is stored online it is worked on your local computer. So you need
 Team 573 Projects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2022 Robot Repo - (Coming Soon!)
+2022 Robot Repo - (https://github.com/savage301/FRC_573_2022_Robot)
 
 2021 Robot and Driver Station Repo - (https://github.com/savage301/FRC_573_2021_Robot)
 
