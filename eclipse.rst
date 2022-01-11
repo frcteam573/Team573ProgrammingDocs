@@ -12,7 +12,7 @@ FRC Control System Help Documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This is the documentation from FIRST for how to setup and run the control system.
 
-https://docs.wpilib.org/en/latest/
+https://docs.wpilib.org/en/stable/index.html
 
 How To Setup Visual Studio On Your Computer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
