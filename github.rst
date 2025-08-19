@@ -16,23 +16,11 @@ While the code is stored online it is worked on your local computer. So you need
 Team 573 Projects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2022 Robot Repo - (https://github.com/savage301/FRC_573_2022_Robot)
+2025 Offseason Repo - Adding SIM to code - (https://github.com/savage301/Team573CTRESwervewithSIM)
 
-2021 Robot and Driver Station Repo - (https://github.com/savage301/FRC_573_2021_Robot)
+2025 Robot Repo - (https://github.com/frcteam573/first-2025-robot)
 
-2020 Robot and Driver Station Repo - (https://github.com/savage301/FRC_573_2020_Robot)
-
-2020 Scouting App Repo - (https://github.com/savage301/2020_Scouting_App)
-
-2019 Robot and Driver Station Repo - (https://github.com/savage301/FRC_573_2019_Robot)
-
-2019 Scouting App Repo - (https://github.com/savage301/2019_Scouting_App)
-
-2018 Robot and Driver Station Repo - (https://github.com/savage301/FRC_Team_573_2018_Robot_Code)
-
-2018 Scouting App Repo - (https://github.com/savage301/Team573_2018ScoutingApps)
-
-2018 Fall Robot Repo - (https://github.com/savage301/2018-Fall-Robot)
+2024 Robot Repo - (https://github.com/frcteam573/first-2024-robot)
 
 Commiting Your Code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

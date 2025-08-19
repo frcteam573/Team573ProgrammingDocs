@@ -5,30 +5,211 @@
 
 FRC Robot Code
 ==============================================================
-This section goes over tips and how to's for C++ robot code specifically for FRC robot.
+This section goes over tips and how to's for command based Python robot code specifically for FRC robot.
 
 Stock Code Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The FIRST Robotics Competition provides a code structure that must be used. The main file is called Robot.cpp. Within that file there are different functions that run during particular parts of each match. 
+The FIRST Robotics Competition provides a code structure that must be used. The main file is called Robot.py. Within that file there are different functions that run during particular parts of each match. 
 
 * note: "init" stands for initialization * 
 
 First is the robot init function. This portion of the code runs as soon as the robot is turned on. It doesn't run again until the robot is power cycled again. 
 
+Next is the robot periodic function. This portion of the codes run every loop that the robot is on, and in any state. This is where you should put any code that needs to run all the time, such as reading sensors or updating the dashboard.
+
 The next function is the autonomous init section. This portion of the code runs as soon as the autonomous mode is enabled. It doesn't run again until autonomous mode is disabled and enabled again. After that comes autonomous periodic. This portion of the code runs after autonomous init finishes running, and it constantly loops through itself the entire time autonomous mode is enabled. Here is where you need to put all of the functions you will run during the autonomous period.
 
-The last two functions are teleop init and teleop periodic. Teleop init, like the other init sections, runs when teleop is enabled, and doesn't run unless teleop is disabled and enabled again. Teleop periodic, which comes after teleop init, runs after teleop init finishes running and runs the entire time teleop is enabled. Here is where you need to put all the functions you want to run during the teleop period.
+The last two functions are teleop init and teleop periodic. Teleop init, like the other init sections, runs when teleop is enabled, and doesn't run unless teleop is disabled and enabled again. Teleop periodic, which comes after teleop init, runs after teleop init finishes running and runs the entire time teleop is enabled. Due to how we struture our code, this is generally empty.
 
 How to build and deploy code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-WPILIB
+WPILIB - Robotpy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Many of the functions we use to control robot actions are part of a library created for FRC called WPILIB.
+Many of the functions we use to control robot actions are part of a library created for FRC called WPILIB. Robotpy is a wrapper used to allow use of WPILIB in Python.
 
-The help for it can be found here. (http://first.wpi.edu/FRC/roborio/release/docs/cpp/)
+The help for it can be found here. (https://robotpy.readthedocs.io/en/stable/)
 
 This is a great resource and the examples in the sections below use fucntions from this library.
 
+Command Based Programming - Subsystems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Subsystems in code are generally similar to subsystems on the robot. In code it is a collection of motors, sensors and other components that work together to perform a specific function.
+For example, a drivetrain subsystem would include the motors that drive the wheels, the encoders that measure distance and speed, and the gyro that measures angle.
+Each subsystem can only have at most 1 command scheduled for it to run every loop. This means that commands are designed for specific subsystems.
+
+An example of a subsystem is below. It is an elevator subsystem that has a motor and an encoder to measure distance.
+
+.. code-block:: python
+	""" File defines the Elevator subsystem for the robot."""
+	import math
+
+	import commands2
+	import wpilib
+	import wpilib.drive
+	import rev
+	from rev import SparkFlex, SparkClosedLoopController, SparkBase, SparkFlexConfig
+	import config
+	from wpilib import SmartDashboard
+	import constants
+	from toolkit_commands.utils.common_functions import max_min_check
+
+	class Elevator(commands2.SubsystemBase):
+
+		def __init__(self) -> None:
+			super().__init__()
+			# Setups the elevator subsystem with a motors, encoders, and a PID controller.
+			self.m_elevator2 = rev.SparkFlex(62, rev.SparkFlex.MotorType.kBrushless)
+			self.m_elevator1 = rev.SparkFlex(61, rev.SparkFlex.MotorType.kBrushless)        
+			self.s_elevator_encoder = self.m_elevator1.getEncoder()
+			self.pid_controller = self.m_elevator1.getClosedLoopController()
+			self._set_config() # Sets the configuration for the elevator motors.
+			
+		def getElevatorEncoderPos(self):
+			# Returns the current position of the elevator encoder.
+			return self.s_elevator_encoder.getPosition()
+		
+		def changeElevatorMode(self,state):
+			# Changes the elevator mode and updates the SmartDashboard.
+			constants.cachedShooterMode = state
+			wpilib.SmartDashboard.putBoolean("Mode",constants.cachedShooterMode)
+			
+
+		def setElevatorSpeed(self, speed: float) -> bool:
+			'''Sets the speed of the elevator motors.
+			
+			Args:
+				speed: The speed to set the motors to, -1 to 1.
+				
+			'''
+			#Checks if the speed is within the range of the elevator encoder, if not it sets it to 0.
+			speed = max_min_check(self.s_elevator_encoder,speed,config.elevator.elevator_minimum,config.elevator.elevator_maximum)
+
+			#Set elevator motors to the given speed.
+			self.m_elevator2.set(-speed)
+			self.m_elevator1.set(speed)
+
+
+		def setElevatorposition(self, pos: float) :   
+			# Sets the elevator position using a PID controller.
+			self.pid_controller.setReference(pos, SparkBase.ControlType.kPosition) # Sets elevator desired position to PID controller
+
+			#Checks if the elevator is at the desired position and returns True if it is, otherwise returns False.
+			if abs(self.s_elevator_encoder.getPosition()-pos) < config.elevator_inPos_Threshold:
+				return True
+			else:
+				return False
+
+		def _set_config(self):
+			# Configures the elevator motors with PID settings and soft limits.
+			configSM = SparkFlexConfig() # Create config for the elevator motor
+			configPID = configSM.closedLoop # Create PID config for the elevator motor
+
+			#Add soft position limits for the elevator motors
+			configSM.softLimit.forwardSoftLimit(config.elevator.elevator_maximum)
+			configSM.softLimit.reverseSoftLimit(config.elevator.elevator_minimum)
+			
+			configSM.smartCurrentLimit(50) # Set the current limit for the elevator motor
+
+
+			# Set the PID settings for the elevator motor
+			configPID.P(config.elevator.kP)
+			configPID.I(config.elevator.kI)
+			configPID.D(config.elevator.kD)
+			configPID.velocityFF(config.elevator.kF)
+			configPID.outputRange(config.elevator.reverse_output_limit,config.elevator.forward_output_limit)
+			
+			#Configure the first elevator motor with the config
+			self.m_elevator1.configure(configSM,SparkBase.ResetMode.kResetSafeParameters,
+						SparkBase.PersistMode.kPersistParameters)
+			
+
+			# Configure the second elevator motor to follow the first one
+			configSM2 = SparkFlexConfig()
+			configSM2.follow(self.m_elevator1.getDeviceId(),True)
+			self.m_elevator2.configure(configSM2,SparkBase.ResetMode.kResetSafeParameters,
+						SparkBase.PersistMode.kPersistParameters)
+
+In the init section the motors and sensors for the subsystem and defined.
+The rest of the function are used to control the subsytem and are called in the commands for the subsystem.
+
+Command Based Programming - Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Commands are the actions that the robot can perform. They are generally used to control a specific subsystem, such as moving an elevator or driving a drivetrain.
+As shown in the example below, commands have sections the 3 that are required are initialize (run once each time the command is started), execute (run everytime the command is scheduled), and end (run once when the command is ended). Other optional functions are isFinished (when returns True the command is ended) and interrupted.
+.. code-block:: python
+	import typing
+	import commands2
+	import wpilib
+
+	from oi.keymap import Keymap
+
+	# from commands.wrist import Wrist
+
+	from subsystems.elevator import Elevator     
+	import config 
+	import constants
+
+			
+	class setElevatorPosition(commands2.Command):
+		#Commands elevator to move to a specific position.
+		def __init__(
+			# This defines what subsystem this command is for, so it can be used in the command scheduler.
+			self,
+			app: Elevator,
+			setPoint: 0,
+		) -> None:
+			super().__init__()
+			self.app = app
+			self.addRequirements(app)
+			self.setPointin = setPoint # This is the setpointin for the elevator to move to, it can be L1, L2, L3, or L4.
+			self.setPoint = 0
+			
+		def initialize(self):
+			#This is run when the command is first run.
+			self.wrist_passed_FSP = False #This is used to check if the wrist has passed the clearspace for the elevator to move.
+			
+		def execute(self):
+			'''Called every time the command is scheduled to run.'''
+			# This match is used to translate the setPointin to the actual setpoint for the elevator to move to.
+			match self.setPointin:
+				case "L1":
+					if constants.cachedShooterMode:
+						self.setPoint = config.elevator.coral_L1
+					else:
+						self.setPoint = config.elevator.algae_processor       
+				case "L2":
+					if constants.cachedShooterMode:
+						self.setPoint = config.elevator.coral_L2
+					else:
+						self.setPoint = config.elevator.algae_L2
+				case "L3":
+					if constants.cachedShooterMode:
+						self.setPoint = config.elevator.coral_L3
+					else:
+						self.setPoint = config.elevator.algae_L3
+				case "L4":
+					if constants.cachedShooterMode:
+						self.setPoint = config.elevator.coral_L4
+					else:
+						self.setPoint = config.elevator.algae_barge
+			
+			# This is used to not allow the elevator to move up if their is not  a coral in the intake.
+			if constants.cachedShooterMode and config.current_ele_pos > -2 and not wpilib.SmartDashboard.getBoolean('Coral In', True):
+				self.app.setElevatorposition(config.elevator.coral_L1)
+			else:
+				if config.wrist_in_zone or self.wrist_passed_FSP:
+					self.wrist_passed_FSP = True
+					config.current_ele_pos = self.app.getElevatorEncoderPos() #Update current elevator position.
+					in_pos = self.app.setElevatorposition(self.setPoint) # Sets the elevator position to the setpoint.
+					return in_pos #Returns True if the elevator is at the desired position, otherwise returns False.
+
+				else:
+					self.app.setElevatorSpeed(0) # Stops the elevator motors if the wrist is not safe position
+		
+		def end(self, interrupted=False) -> None:
+			#This is run when the command is finished.
+			self.app.setElevatorSpeed(0)
 
 Controller Inputs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,141 +218,70 @@ For FRC we generally use two XBOX controllers to allow for our driver and operat
 
 In order to use them they must be plugged into our Driver Station laptop via a usb port, and given a controller number. This number can be easily changed on the driver station at anytime, so its good to double check that they are correct before using them.
 
-In order to read in some inputs from our XBOX controller we can use the following code.
+Due to the command based structure we bind or link buttons to specific commands. This is generally done in our Keymap.py and OI.py files.
 
-In RobotMap.h
+In Keymap.py
 
-.. code-block:: c++
+.. code-block:: python
 
-	#pragma once
-	#include <WPILib.h>
+	""" This creates buttons map for the controllers"""
+	import commands2
+	import wpilib
+	from utils.oi import (
+		JoystickAxis,
+		XBoxController,
+	)
 
-	constexpr int Driver1 = 0; //Defining USB input 0
+	# -- Create controllers --
+	controllerDRIVER = XBoxController
+	controllerOPERATOR = XBoxController
+
+	class Controllers:
+		DRIVER = 0
+		OPERATOR = 1
+
+		DRIVER_CONTROLLER = wpilib.Joystick(0)
+		OPERATOR_CONTROLLER = wpilib.Joystick(1)
+	#-- Create keymap class --
+	class Keymap:
+		class Elevator:
+			setLevel3 = commands2.button.JoystickButton(Controllers.DRIVER_CONTROLLER, controllerDRIVER.Y)
+
+		class Drivetrain:
+			followPath = commands2.button.JoystickButton(Controllers.DRIVER_CONTROLLER, controllerDRIVER.A)
 
 
-In Robot.cpp
+In OI.py
 
-.. code-block:: c++
+.. code-block:: python
 
-	#include <WPILib.h>
-	#include "RobotMap.h"
-	#include <Joystick.h>
+	import commands.elevator
+	import commands.drivetrain
 
-	class Robot : public frc::TimedRobot {
-	public:
+	import commands
+	import config
+	from oi.keymap import Controllers, Keymap
 
+	import constants
+	from robotcontainer import Robot
+	import robotcontainer
 
-		frc::Joystick controller1{ Driver1 };  // Xbox controller 1
+	class OI:
+	
+		@staticmethod
+		def init() -> None:
+			pass
 
-		void TeleopPeriodic() override {
+		@staticmethod
+		def map_controls():
+			pass
 
-			double leftin = controller1.GetRawAxis(1); //Get Drive Left Joystick Y Axis Value
-			double rightin = controller1.GetRawAxis(5); //Get Drive right Joystick Y Axis Value
-			bool AButton = controller1.GetRawButton(1); //Get A button Value (True or False)
+	# Below is the mapping used to call commands based on user joystick input.		
+	Keymap.Elevator.setLevel3.whileTrue(commands.elevator.setPosition(Robot.elevator,position=10))
 
-		}
-	}
-
-The values used in the GetRawAxis and GetRawButton functions are based upon the following button map for the XBox controller. This image is wrong for axis. They start at 0, but follow the same ordering.
-
+We have class for XBoxController which allows the code to just use button names instead of needing to know the specific port for each button.
 .. image:: /_static/XBoxControlMapping.jpg
 
-Motor Outputs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Every year we have lots of different motor types on our robot, luckily most of them can be controlled using the same function.
-
-Below is a simple example of how to map joystick inputs directly to drive motor outputs. This is a simple version of tank drive which we used on the 2018 robot.
-While everything is done within the Robot.cpp file in the example normally we create several subsystem files, such as Drive.cpp to store functions that we call from Robot.cpp
-To see an example of this see the 2018 robot code repo.
-
-In RobotMap.h
-
-.. code-block:: c++
-
-	#pragma once
-	#include <WPILib.h>
-
-	constexpr int Driver1 = 0; //Defining USB input 0
-	constexpr int LeftDrivePWM = 0; // Defining Left Drive PWM is in RoboRio Port 0
-	constexpr int RightDrivePWM = 1; // Defining Left Drive PWM is in RoboRio Port 1
-
-In Robot.cpp
-
-.. code-block:: c++
-
-	#include <WPILib.h>
-	#include <RobotMap.h>
-	#include <Joystick.h>
-	#include <Talon.h>
-
-	class Robot : public frc::TimedRobot {
-	public:
-
-		frc::Joystick controller1{ Driver1 };  // Xbox controller 1
-		frc::Talon LeftDrive{ LeftDrivePWM }; //Defining a Talon controller called LeftDrive
-		frc::Talon RightDrive{ 	RightDrivePWM }; //Defining a Talon controller called RightDrive
-
-
-		void TeleopPeriodic() override {
-
-			double leftin = controller1.GetRawAxis(1); //Get Drive Left Joystick Y Axis Value
-			double rightin = controller1.GetRawAxis(5); //Get Drive right Joystick Y Axis Value
-
-			LeftDrive.Set(leftin); //Set left value to left drive
-			RightDrive.Set(rightin); //Set right value to right drive
-
-		}
-	}
-
-Important note - Once you set a motor output value it will keep it until it is changed again. Which means if you want a motor to stop you have to set it equal to zero otherwise it will keep going.
-
-Pnuematic Outputs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The team has in the past used a pnematic system on the robot on certain mechanisms. Including grippers, brakes, and shifting transmissions.
-While these actuate systems similar to motors, they are controlled differently since they only have two positions (extended or retracted)
-
-In RobotMap.h
-
-.. code-block:: c++
-
-	#pragma once
-	#include <WPILib.h>
-
-	constexpr int Driver1 = 0; //Defining USB input 0
-	constexpr int ShifterPort1 = 4; // Defining Shift port number on PCM
-	constexpr int ShifterPort2 = 5; // Defining Shift port number on PCM
-
-	DoubleSolenoid * Shifter; // Defining a DoubleSolenoid named Shifter
-	constexpr int PCM = 1; // Defining PCM CAN ID
-
-In Robot.cpp
-
-.. code-block:: c++
-
-	#include <WPILib.h>
-	#include "RobotMap.h"
-	#include <Joystick.h>
-
-	class Robot : public frc::TimedRobot {
-	public:
-
-		frc::Joystick controller1{ Driver1 };  // Xbox controller 1
-
-		Shifter = new DoubleSolenoid(PCM, ShifterPort1, ShifterPort2); // Setting shifter ports and PCM CAN ID
-
-		void TeleopPeriodic() override {
-
-			bool button = controller1.GetRawButton(1); //Get A button Value (True or False)
-			
-			if (button){
-				Shifter->Set(DoubleSolenoid::Value::kReverse); // Setting shifter to reverse position
-			}
-			else {
-				Shifter->Set(DoubleSolenoid::Value::kForward); // Setting shifter to forward position
-			}
-
-		}
-	}
 
 Sensor Inputs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -198,92 +308,20 @@ An example from this team. In 2016, the team made a shooter that moved up and do
 
 Encoders
 ---------------------------------------------------
-An encoder measures the rotational speed and rotations of something. We use them mainly on drivetrains to measure distance and appendages to measure speed and/or distance.
+An encoder measures the rotational speed and rotations of something. Luckily for brushless motor an encoder is already built into the motor.
 
+.. code-block:: python 
 
-In RobotMap.h
-
-.. code-block:: c++
-
-	#pragma once
-	#include <WPILib.h>
-	#include <Encoder.h>
-
-	Encoder * LeftDriveEncoder; //Define a new encoder called LeftDriveEncoder
-
-
-In Robot.cpp
-
-.. code-block:: c++
-
-	#include <WPILib.h>
-	#include "RobotMap.h"
-	#include <Encoder.h>
-
-	class Robot : public frc::TimedRobot {
-	public:
-
-		LeftDriveEncoder = new Encoder(0, 1, false, Encoder::k4X); //Define ports (0 and 1) for LeftDriveEncoder, fasle to not reverse direction and encoding type of k4x
-
-
-		void TeleopPeriodic() override {
-
-			double leftEncoderVal = LeftDriveEncoder->Get(); // Get current rotation count from LeftDriveEncoder
-
-			double leftDistance = leftEncoderVal * 5 / 963; // Convert rotation count to a physical distance. This depends upon the robot itself.
-
-			frc::SmartDashboard::PutString("DB/String 2", to_string(leftDistance)); // Write out values to dashboard field DB/String 2, this is useful for debugging.
-
-		}
-	}
-
-Other useful commands to use with the Encoder are
-
-LeftDriveEncoder->Reset(); // Resets number of rotations to zero.
+	self.m_elevator1 = rev.SparkFlex(61, rev.SparkFlex.MotorType.kBrushless)        
+    self.s_elevator_encoder = self.m_elevator1.getEncoder()
 
 
 
 Gyros
 ---------------------------------------------------
 A gyro measures angle and angluar velocity. We use it to help keep the robot driving in a straight line. One thing to watch out for with gyros is drift. Over time a stationary gyro's output will increase. 
-With that said the ones we use on the team are generally good enough for 15 seconds without having to reset it back to zero. 
+With that said the ones we use on the team are generally good enough for 2+ minutes without having to reset it. 
 
-A basic example of how to include a gryo in your code.
-
-In RobotMap.h
-
-.. code-block:: c++
-
-	#pragma once
-	#include <WPILib.h>
-	#include <ADXRS450_Gyro.h>
-
-
-In Robot.cpp
-
-.. code-block:: c++
-
-	#include <WPILib.h>
-	#include "RobotMap.h"
-	#include <ADXRS450_Gyro.h>
-
-	class Robot : public frc::TimedRobot {
-	public:
-		frc::ADXRS450_Gyro MyGyro{}; //Defines MyGyro no port is need since this gyro type is assumed to plug into a specific port in the RoboRio.
-
-
-		void TeleopPeriodic() override {
-
-			double gyroval = MyGyro.GetAngle(); // Get current angle from gyro called MyGyro
-
-			frc::SmartDashboard::PutString("Gyro", to_string(gyroval)); // Write out values to dashboard field Gyro, this is useful for debugging.
-
-		}
-	}
-
-Other useful commands to use with the Encoder are
-
-MyGyro.Reset(); // Resets current angle to zero.
 
 Digital Inputs
 ---------------------------------------------------
@@ -293,40 +331,23 @@ They can all get coded for in the same way even if they physically look differen
 
 A basic example of how to include a digital input in your code.
 
-In RobotMap.h
+Defining lightgate
 
-.. code-block:: c++
+.. code-block:: python
 
-	#pragma once
-	#include <WPILib.h>
-
-	constexpr int BoxlightgateDIO = 6;
-
-	DigitalInput * Boxlightgate; //Define a new digital input called Boxlightgate
+	self.s_claw_lightgate2 = wpilib.DigitalInput(1) # Claw Lightgate sensor
 
 
-In Robot.cpp
+Calling it in subsystem
 
-.. code-block:: c++
+.. code-block:: python
 
-	#include <WPILib.h>
-	#include "RobotMap.h"
-
-
-	class Robot : public frc::TimedRobot {
-	public:
-
-		Boxlightgate = new DigitalInput(BoxlightgateDIO); //Defines Boxlightgate to use DIO port 6 on RoboRio
-
-
-		void TeleopPeriodic() override {
-
-			bool lightgatebool = Boxlightgate->Get(); // Get current status of Boxlightgate (True or False)
-
-			frc::SmartDashboard::PutBoolean("Box in Robot", lightgatebool); // Write out values to dashboard field Box in Robot, this is useful for debugging.
-
-		}
-	}
+	if self.s_claw_lightgate2.get() == True: # This check if lightgate is not blocked else it stops intaking coral.
+            speed = speed*.5
+    else: 
+        speed = 0
+        coralIn = True
+    self.m_claw.set(speed) #Sets the speed of the claw motor.
 
 
 Control Loops
@@ -393,132 +414,35 @@ Motor Ouptut = Kp * Error + Ki * Acculated Error + Kd * Change in Error
 
 Just a reminder that Kp, Ki and Kd can be negative and are "tuned" depending upon the system your trying to control. Generally in FRC we just guess and check these values until the system behaves like we want.
 
-How to code a P loop
+How to Use This
 -------------------------------------------------------------------
-Back to code. Here is an example of how to get a robot to drive straight with the aid of a gyro. It uses a P controller with some limiters to make sure the system stays in control.
+Motor contorllers in FRC have built in PID controllers that we can use. The example below shows how to set up and use a PID controller for an elevator subsystem.
 
-In RobotMap.h
+.. code-block:: python
 
-.. code-block:: c++
-
-	#pragma once
-	#include <WPILib.h>
-	#include <ADXRS450_Gyro.h>
-
-	ADXRS450_Gyro * MyGyro; //Define a new gyro called MyGyro
-
-	constexpr int Driver1 = 0; //Defining USB input 0
-	constexpr int LeftDrivePWM = 0; // Defining Left Drive PWM is in RoboRio Port 0
-	constexpr int RightDrivePWM = 1; // Defining Left Drive PWM is in RoboRio Port 1
-
-	Talon * LeftDrive; //Defining a Talon controller called LeftDrive
-	Talon * RightDrive; //Defining a Talon controller called RightDrive
-
-In Robot.cpp
-
-.. code-block:: c++
-
-	#include <WPILib.h>
-	#include "RobotMap.h"
-	#include <ADXRS450_Gyro.h>
-	#include <Joystick.h>
-
-	class Robot : public frc::TimedRobot {
-	public:
-
-		MyGyro = new ADXRS450_Gyro(); //Defines MyGyro no port is need since this gyro type is assumed to plug into a specific port in the RoboRio.
-		frc::Joystick controller1{ Driver1 };  // Xbox controller 1
-
-		void TeleopPeriodic() override {
-
-			//Hardcoded P function
-			double y = controller1.GetRawAxis(1); //Get Drive Left Joystick Y Axis Value
-			double gyroCurrent = MyGyro->GetAngle(); // Get current Gyro angle
-			double gyroError = 0 - gyroCurrent; // Calculate gyro error assuming we want to be at angle 0
-			double kPGyro = -0.04; // Hardcoded Kp value.
-			double PIDTurn = kPGyro * gyroError; // Determine turn value needed to be added to controller to get it to go straight.
-		
-
-			// Limiting the PIDTurn value so it doesn't wash out forward and backward control of the robot
-			if(PIDTurn > .8) {
-		
-				PIDTurn = .8;
-		
-			} else if(PIDTurn < -.8) {
-		
-				PIDTurn = -.8;
-		
-			}
-
-			// Limiting the forward and backward value so it doesn't wash out PID turn control of the robot
-			if(y > .75) {
-		
-			y = .75;
-		
-			} else if(y < -.75) {
-		
-			y = -.75;
-		
-			}
-
-			//Hardcoding arcade drive with y and pivot axes
-			double leftPower = (y + PIDTurn);
-			double rightPower = (y - PIDTurn);
-
-			// Limiting left and right drive train power settings.
-			if (leftPower > .9){
-				leftPower = .9;
-			}
-			else if (leftPower < -.9){
-				leftPower = -.9;
-			}
-
-			if (rightPower > .9){
-				rightPower = .9;
-			}
-			else if (rightPower < -.9){
-				rightPower = -.9;
-			}
-			LeftDrive->Set(leftPower); //Set left value to left drive
-			RightDrive->Set(rightPower); //Set right value to right drive
-
-		}
-
-		}
-	}
+	# In the init section of the subsystem
+	self.pid_controller = self.m_elevator1.getClosedLoopController()
+	
+	# In a function to set the position of the elevator
+	self.pid_controller.setReference(pos, SparkBase.ControlType.kPosition) # Sets elevator desired position to PID controller
 
 Vision with Limelight Camera
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 While a camera is just another type of sensor there are alot of settings with it so it deserves it own section.
 
-Last year we used a limelight camera which is a self contained vision system that does all the vision processing on board and just sends numbers back to the RoboRio.
+In the past, we used a limelight camera which is a self contained vision system that does all the vision processing on board and just sends numbers back to the RoboRio.
 
 The limelight documentation can be found here.(http://docs.limelightvision.io/en/latest/) It is really good and there are some great examples in there of how to set up the camera and use it.
 
-Below is the code we used in order to get values from the limelight last year its a little different from the code provided on their website.
-
 In order for the code below to function correctly the camera must be setup with the correct team number and ip settings as desrcibed in the limelight documentation. (link above)
-
-.. code-block:: c++
-
-	//------------------------ vision read-in -----------------------------
-
-		std::shared_ptr<NetworkTable> table =  NetworkTable::GetTable("limelight"); // Setup Network Table
-		table->PutNumber("ledMode",1); // Turn off the LEDs
-		table->PutNumber("pipeline",4); // Select the proper vision pipeline
-
-		// Read in values about the target.
-
-		float targetOffsetAngle_Horizontal = table->GetNumber("tx",0); // X location in frame relative to center
-		float targetOffsetAngle_Vertical = table->GetNumber("ty",0); // y location in frame relative to center
-		float targetArea = table->GetNumber("ta",0); // Target Area
-		float targetSkew = table->GetNumber("ts",0); // Target Skew
-		float targetExists = table->GetNumber("tv",0); // Is there a valid target
-
-
 
 Once these values are read in they can be used in control loops just like any other sensor value.
 
+Vision with Photon Vision
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We've also used Photon Vision for vision processing. It is a bit more complicated to set up, but it allows for more flexibility in camera choice and processing power.
+
+The Photon Vision documentation can be found here.(https://docs.photonvision.org/en/latest/) It is really good and there are some great examples in there of how to set up the camera and use it.
 
 
 .. toctree::

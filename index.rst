@@ -10,15 +10,13 @@ Welcome to Team 573 Programming Documentation!
    :maxdepth: 2
 
    Intro <Intro.rst>
-   C++ Programming for FRC <CforFRC.rst>
+   Python Programming for FRC <CforFRC.rst>
    Github <github.rst>
    VSCode Setup for FRC <eclipse.rst>
    FRC Electrical Quick Reference <electrical.rst>
    Coding for FRC Robot <RobotCode.rst>
    Motion Profiling <motionprofile.rst>
-   Arduino on a FRC Robot <ArduinoCode.rst>
    FRC Driver Station <DS.rst>
-   Scouting App <scoutingapp.rst>
    CAD History <CAD.rst>
 .. Intro to Python
 .. Intro to Sqlite

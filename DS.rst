@@ -12,33 +12,18 @@ FRC Dashboard
 
 FRC Driver Station
 -------------------------------------------------------------
+This is standard software provided by FIRST each year. We cannot modify it, but it is used to connect to the robot and control it.
 
-How To Create A New Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FRC Dashboard
+FRC Dashboard - Elastic
 -------------------------------------------------------------
+We use Elastic as our dashboard software. Once connected to the robot you can add widgets, which are items the code already send to the SmartDashboard, to the dashboard.
+You can drag and drop them around to arrange them how you like.
 
-How to install labview on driver station laptop
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Intro to Labview
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to create a new DS project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to add a tab
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to add controls
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to add display
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to connect vision to screen
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to connect them with robot
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to connect data tables with robot
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to build and deploy new dashboard
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. image:: /_static/images/eElastic.png
+   :alt: FRC Dashboard - Elastic
+   :width: 600px
+   :align: center
 
 .. toctree::
    :maxdepth: 2
