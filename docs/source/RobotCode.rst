@@ -40,7 +40,7 @@ Each subsystem can only have at most 1 command scheduled for it to run every loo
 An example of a subsystem is below. It is an elevator subsystem that has a motor and an encoder to measure distance.
 
 .. code-block:: python
-	""" File defines the Elevator subsystem for the robot."""
+	
 	import math
 
 	import commands2
@@ -137,7 +137,9 @@ Command Based Programming - Commands
 
 Commands are the actions that the robot can perform. They are generally used to control a specific subsystem, such as moving an elevator or driving a drivetrain.
 As shown in the example below, commands have sections the 3 that are required are initialize (run once each time the command is started), execute (run everytime the command is scheduled), and end (run once when the command is ended). Other optional functions are isFinished (when returns True the command is ended) and interrupted.
+
 .. code-block:: python
+
 	import typing
 	import commands2
 	import wpilib
