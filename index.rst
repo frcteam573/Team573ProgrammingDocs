@@ -17,6 +17,7 @@ Welcome to Team 573 Programming Documentation!
    Coding for FRC Robot <RobotCode.rst>
    Motion Profiling <motionprofile.rst>
    FRC Driver Station <DS.rst>
+   Simulation <simulation.rst>
    CAD History <CAD.rst>
 .. Intro to Python
 .. Intro to Sqlite
