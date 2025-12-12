@@ -25,7 +25,7 @@ FRC PathPlanner
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The repoistory is setup to work with FRC path planner and Named Commands. The default currently is the Tests auto which follows a path, raises the elevator to a set height, then run a seperate path. Examples of how to defined Named Commands can be found in robotcontainer.py
 
-.. figure:: ../_static/Auto.gif
+.. figure:: _static/Auto.gif
 
 Advanatage Scope
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
