@@ -25,13 +25,13 @@ FRC PathPlanner
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The repoistory is setup to work with FRC path planner and Named Commands. The default currently is the Tests auto which follows a path, raises the elevator to a set height, then run a seperate path. Examples of how to defined Named Commands can be found in robotcontainer.py
 
-.. figure:: /_static/Auto.gif
+.. figure:: _static/Auto.gif
 
 Advanatage Scope
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Advanatage Scope is software that allows for simulation and replay of logs to visualize robot data. When running simulator you can see robot movenment and can even fake driving from behind the glass. The goal is to use this in 2026 to allow for quicker debugging of issues during build and at events.
 
-.. figure:: /_static/Behind the glass.png
+.. figure:: _static/Behind the glass.png
 
 
 .. toctree::
