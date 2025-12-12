@@ -16,7 +16,7 @@ Interface Control Document (ICD)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We use a spreadsheet called an interface control document to organize what ports are used for which sensors/motors. This is a shared document between electrical, programming and mechanical. If changes need to be made the leads of programming and electrical must agree. It is important that communication is maintained between the electrical and programming subteams, so that the ICD is consistent with the robot all season.
 
-image:: /_static/ICD.PNG
+.. image:: /_static/ICD.PNG
 
 
 CAN
